@@ -36,9 +36,9 @@
             </table>
             <script>
             $(function(){
-                var tid = get_param_wp("tid");
+                var tid = get_param("tid");
                 //tid=26442;
-                var thispage=get_param_wp("page");
+                var thispage=get_param("page");
                 if(thispage=="" || thispage==null) thispage=0;
                 getTopic(tid,thispage,function(json){
                     var htmlStr="";

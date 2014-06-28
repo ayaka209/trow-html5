@@ -44,16 +44,16 @@
     <script>
         function touch(obj){
             // use # instead of ? to be compatible with windows phone.
-            window.location.href= "topicView.html#tid=" + obj.id.replace("post_", "");
+            window.location.href= "topicView.html"+  paramSeparator  +"tid=" + obj.id.replace("post_", "");
         }
         function touch_forum(obj){
             // use # instead of ? to be compatible with windows phone.
-            window.location.href= "topicList.html#fid=" + obj.id.replace("forum_", "");
+            window.location.href= "topicList.html+" + paramSeparator +" fid=" + obj.id.replace("forum_", "");
             location.reload();
         }
     $(function(){
         var fid;
-        fid=get_param_wp("fid");
+        fid=get_param("fid");
         if(fid=="" || fid==null) fid=0;
         //fid=2;
         getForums(fid,0,function(json){

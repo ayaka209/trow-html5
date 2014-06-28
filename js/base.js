@@ -2,6 +2,7 @@ var remoteTime;
 var appKey = "bb118380";
 var appSecret = "24d7e1f13ee40713cb4a98986a20f3a8";
 var appToken;
+var paramSeparator = "?";
 var md5 = function (source) {
     return $().crypt({
         method: "md5",
@@ -14,6 +15,11 @@ var sha1 = function (source) {
         source: source
     })
 };
+if(navigator.appName.indexOf("Internet Explorer")>0)
+{
+    alert(navigator.appName);
+    paramSeparator="#";
+}
 function getTime(callback) {
     $.getJSON("http://trow.cc/api/stats/time", null, function (json) {
         remoteTime = json.data.time;
@@ -75,7 +81,8 @@ function pageWrite(thispage, allpages) {
         if (pageOffset == thispage) {
             htmlStr += "第" + (pageOffset + 1 ) + "页&nbsp;";
         } else {
-            htmlStr += "<a href=\"#tid=" + get_param_wp("tid") + "&page=" + pageOffset + "\" onclick=\"location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
+                htmlStr += "<a href=\"" + paramSeparator+ "tid=" + get_param("tid") + "&page=" + pageOffset + "\" onclick=\"location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
+
         }
     }
     $("#pageControl").html(htmlStr);
@@ -105,8 +112,8 @@ function getTopic(tid, page, callback) {
         }, function (json) {
             if (json.data.moved_to) {
                 //alert("moved");
-                window.location.href = "topicView.html#tid=" + json.data.moved_to;
-                location.reload();
+                window.location.href = "topicView.html" + paramSeparator +"tid=" + json.data.moved_to;
+                if(paramSeparator=="#")location.reload();
             }
             callback(json);
         }).fail(function (jqxhr) {
@@ -116,6 +123,10 @@ function getTopic(tid, page, callback) {
 }
 
 function get_param(param) {
+    if(navigator.appName.indexOf("Internet Explorer")>0)
+    {
+        return get_param_wp(param);
+    }
     var search = window.location.search.substring(1);
     var compareKeyValuePair = function (pair) {
         var key_value = pair.split('=');
