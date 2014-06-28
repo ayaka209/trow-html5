@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <link rel="stylesheet" type="text/css" href="css/phone.css" />
+        <script src="js/jquery-2.1.1.min.js"></script>
+        <script src="js/jquery.crypt.js"></script>
+        <script src="js/base.js"></script>
+        <meta name="viewport"
+              content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+        <title>T.R.O.W. - The Ring of Wonder</title>
+        <style>
+            table {
+                table-layout: fixed;
+                word-wrap: break-word;
+                max-width: 100%;
+            }
+            td {
+                border: 1px solid white;
+            }
+            img {
+                max-width: 80%;
+            }
+            #description
+            {
+                font-size:12px
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <p>Portal</p>
+        </div>
+       <table id="topicListContainer"  style="width: 100%">
+           <tr id="topPageControl">
+               <td id="pageControl"></td>
+           </tr>
+           <!--Post-->
+
+           <tr>
+               <td id="pageControl_bottom"></td>
+           </tr>
+       </table>
+    <script>
+        function touch(obj){
+            // use # instead of ? to be compatible with windows phone.
+            window.location.href= "topicView.html#tid=" + obj.id.replace("post_", "");
+        }
+    $(function(){
+        getTopics(59,0,function(json){
+            var htmlStr="";
+            for(var topicIndex in json.data) {
+                var topic = json.data[topicIndex];
+                var topicDate="";
+                htmlStr +="<tr id=\"post_" + topic.id +"\"  onclick=\"touch(this)\"><td><p class=\"title\">" +topic.title + "</p><span class=\"info\" id=\"description\">" + topic.description + "</span></td></tr>"
+            }
+            $("#topPageControl").after(htmlStr);
+            $("#pageControl").hide();
+            $("#pageControl_bottom").hide();
+        });
+
+    });
+
+    </script>
+    </body>
+</html>

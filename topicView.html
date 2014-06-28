@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <link rel="stylesheet" type="text/css" href="css/phone.css" />
+            <script src="js/jquery-2.1.1.min.js"></script>
+            <script src="js/jquery.crypt.js"></script>
+            <script src="js/base.js"></script>
+            <title>Windows Phone</title>
+            <style>
+            table {
+                table-layout: fixed;
+                word-wrap: break-word;
+                }
+            td {
+                border: 1px solid white;
+                }
+            img {
+                max-width: 80%;
+                }
+            </style>
+        </head>
+        <body>
+            <div>
+                <p id="title">Loading...</p>
+            </div>
+            <table id="topicListContainer"  style="width: 100%">
+                <tr id="topPageControl">
+                    <td id="pageControl"></td>
+                </tr>
+                <!--Post-->
+
+                <tr>
+                    <td id="pageControl_bottom"></td>
+                </tr>
+            </table>
+            <script>
+            $(function(){
+                var tid = get_param_wp("tid");
+                //tid=26442;
+                var thispage=get_param_wp("page");
+                if(thispage=="" || thispage==null) thispage=0;
+                getTopic(tid,thispage,function(json){
+                    var htmlStr="";
+                    $("#title").html(json.data.title);
+                    pageWrite(thispage,Math.floor(json.data.replies / 15));
+                    for(var topicIndex in json.data.posts) {
+                        var topic = json.data.posts[topicIndex];
+                        var topicDate=new Date(topic.post_date * 1000).toLocaleString();
+                        htmlStr +="<tr id=\"post_info_" + topic.pid +"\"><td><span class=\"info\" id=\"author\">" + topic.author_name + "</span>&nbsp;<span class=\"info\" id=\"date\">" + topicDate +"</span></td></tr>";
+                        htmlStr +="<tr id=\"post_" + topic.pid +"\"><td><p class=\"title\">" +"" + "</p><p class=\"post\">"+ topic.post +"</p></td></tr>"
+                    }
+                    $("#topPageControl").after(htmlStr);
+                });
+
+                });
+
+            </script>
+        </body>
+    </html>
