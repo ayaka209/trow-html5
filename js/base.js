@@ -35,6 +35,7 @@ $(function(){
 $("#toolbar").offset({
     top:window.innerHeight - $("#toolbar").innerHeight()
 });
+    if(user.uid != null && user.uid !=undefined && user.uid !="")$("#user_info_toolbar").html("<a onclick=\"localStorage.removeItem(\'user\');location.reload();\">[Log Out]</a>")
 });
 function getTime(callback) {
     $.getJSON("http://trow.cc/api/stats/time", null, function (json) {
@@ -55,7 +56,7 @@ function getTopics(fid, page, callback) {
             "uid":user.uid,
             "utoken":user.utoken
         }, function (json) {
-            if(json.visitor==user.uid)show_user_logon_info();
+            if(json.visitor!=user.uid)show_user_login();
             callback(json);
         }).fail(function (jqxhr) {
             alert(jqxhr.responseText);
@@ -73,6 +74,7 @@ function getForums(fid, page, callback) {
                 "uid":user.uid,
                 "utoken":user.utoken
             }, function (json) {
+                if(json.visitor!=user.uid)show_user_login();
                 callback(json);
             }).fail(function (jqxhr) {
                 alert(jqxhr.responseText);
@@ -89,6 +91,7 @@ function getForums(fid, page, callback) {
                 "uid":user.uid,
                 "utoken":user.utoken
             }, function (json) {
+                if(json.visitor!=user.uid)show_user_login();
                 callback(json);
             }).fail(function (jqxhr) {
                 alert(jqxhr.responseText);
@@ -138,6 +141,7 @@ function getTopic(tid, page, callback) {
         }, function (json) {
             if (json.data.moved_to) {
                 //alert("moved");
+                if(json.visitor!=user.uid)show_user_login();
                 window.location.href = "topicView.html" + paramSeparator + "tid=" + json.data.moved_to;
                 if (paramSeparator == "#")location.reload();
             }
@@ -205,12 +209,8 @@ function get_param_wp(param) {
 
     return comparisonResult;
 }
-function show_user_logon_info() {
-    if (localStorage.length > 0) {
-
-    } else {
-        $("#user_info_toolbar")
-    }
+function show_user_login() {
+    $("#user_info_toolbar").html("<a href=\"login.html\">[Log In]</a>")
 }
 function login(username, ucode, callback) {
     getTime(function () {

@@ -27,13 +27,16 @@
                <td id="pageControl_bottom"></td>
            </tr>
        </table>
+        <div id="toolbar_top">
+            <div class="toolbar_item" style="float:left"><a onclick="history.go(-1);">[←]</a>&nbsp;</div>
+            <div class="toolbar_item" style="float:right"><a onclick="history.go(1);">[→]</a>&nbsp;</div>
+            <div class="toolbar_item" style="float:right"><a onclick="location.reload();">[Refresh]</a>&nbsp;</div>
+        </div>
         <div id="toolbar">
-            <div class="toolbar_item" style="float:left"><a onclick="history.go(-1);">[Back]</a>&nbsp;</div>
-            <div class="toolbar_item" style="float:left"><a onclick="history.go(1);">[Forward]</a>&nbsp;</div>
             <div class="toolbar_item" style="float:right"><a href="index.html">[Portal]</a>&nbsp;</div>
             <div id="user_info_toolbar" class="toolbar_item" style="float:left"><a href="login.html">[Log In]</a></div>
             <div class="toolbar_item" style="float:right"><a href="topicList.html">[Forums]</a>&nbsp;</div>
-            <div class="toolbar_item" style="float:right"><a onclick="location.reload();">[Refresh]</a>&nbsp;</div>
+
         </div>
     <script>
         function touch(obj){
@@ -79,6 +82,16 @@
     });
 
     </script>
+        <script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
+            ga('create', 'UA-52449046-1', 'auto');
+            ga('send', 'pageview');
+
+        </script>
     </body>
+
 </html>
