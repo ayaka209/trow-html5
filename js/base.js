@@ -108,7 +108,7 @@ function pageWrite(thispage, allpages) {
         if (pageOffset == thispage) {
             htmlStr += "第" + (pageOffset + 1 ) + "页&nbsp;";
         } else {
-            htmlStr += "<a class=\"page\" href=\"" + paramSeparator + "tid=" + get_param("tid") + "&page=" + pageOffset + "\" onclick=\"location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
+            htmlStr += "<a class=\"page\" href=\"" + paramSeparator + "tid=" + get_param("tid") + "&page=" + pageOffset + "\" onclick=\"if(paramSeparator==\"#\")location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
 
         }
     }
