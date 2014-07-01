@@ -2,11 +2,6 @@
 <project version="4">
   <component name="IdProvider" IDEtalkID="0B806B747CCDE5F4F20F6C256BBD30FB" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_6" assert-keyword="true" jdk-15="true" />
-  <component name="PyConsoleOptionsProvider">
-    <option name="myPythonConsoleState">
-      <console-settings />
-    </option>
-  </component>
   <component name="masterDetails">
     <states>
       <state key="ProjectJDKs.UI">

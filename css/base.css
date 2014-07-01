@@ -1,0 +1,40 @@
+table {
+    table-layout: fixed;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+td {
+    border: 1px solid white;
+}
+img {
+    max-width: 80%;
+}
+#description
+{
+    font-size:12px
+}
+#toolbar
+{
+    /*border: 1px solid #ffffff;*/
+    position:fixed;
+    background-color: black;
+    z-index: 1;
+    width:100%;
+}
+.toolbar_item
+{
+    font-size: 15px;
+    float: left;
+    background-color:white;
+    color:black;
+}
+.page{
+    color:white;
+}
+a.toolbar_item{
+    color:black;
+    text-decoration: none;
+}
+label{
+    font-family: monospace;
+}

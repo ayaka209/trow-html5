@@ -3,6 +3,7 @@ var appKey = "bb118380";
 var appSecret = "24d7e1f13ee40713cb4a98986a20f3a8";
 var appToken;
 var paramSeparator = "?";
+var user;
 var md5 = function (source) {
     return $().crypt({
         method: "md5",
@@ -15,11 +16,26 @@ var sha1 = function (source) {
         source: source
     })
 };
-if(navigator.appName.indexOf("Internet Explorer")>0)
-{
+if (navigator.appName.indexOf("Internet Explorer") > 0) {
     alert(navigator.appName);
-    paramSeparator="#";
+    paramSeparator = "#";
 }
+user = localStorage.getItem("user");
+if(user ==null || user == undefined)
+{
+    user = {
+        "uid":"",
+        "uname":"",
+        "ucode":""
+    }
+}else{
+    user= $.parseJSON(user);
+}
+$(function(){
+$("#toolbar").offset({
+    top:window.innerHeight - $("#toolbar").innerHeight()
+});
+});
 function getTime(callback) {
     $.getJSON("http://trow.cc/api/stats/time", null, function (json) {
         remoteTime = json.data.time;
@@ -35,8 +51,11 @@ function getTopics(fid, page, callback) {
             "apptoken": appToken,
             "appkey": appKey,
             "fid": fid,
-            "start": page * 100
+            "start": page * 100,
+            "uid":user.uid,
+            "utoken":user.utoken
         }, function (json) {
+            if(json.visitor==user.uid)show_user_logon_info();
             callback(json);
         }).fail(function (jqxhr) {
             alert(jqxhr.responseText);
@@ -44,26 +63,31 @@ function getTopics(fid, page, callback) {
     });
 }
 function getForums(fid, page, callback) {
-    if(fid==0 || fid==null || fid==""){
-    getTime(function () {
-        $.getJSON("http://trow.cc/api/forums/list", {
-            "t": remoteTime,
-            "apptoken": appToken,
-            "appkey": appKey,
-            "start": page * 100
-        }, function (json) {
-            callback(json);
-        }).fail(function (jqxhr) {
-            alert(jqxhr.responseText);
+    if (fid == 0 || fid == null || fid == "") {
+        getTime(function () {
+            $.getJSON("http://trow.cc/api/forums/list", {
+                "t": remoteTime,
+                "apptoken": appToken,
+                "appkey": appKey,
+                "start": page * 100,
+                "uid":user.uid,
+                "utoken":user.utoken
+            }, function (json) {
+                callback(json);
+            }).fail(function (jqxhr) {
+                alert(jqxhr.responseText);
+            });
         });
-    });}else{
+    } else {
         getTime(function () {
             $.getJSON("http://trow.cc/api/forums/list", {
                 "t": remoteTime,
                 "apptoken": appToken,
                 "appkey": appKey,
                 "fid": fid,
-                "start": page * 100
+                "start": page * 100,
+                "uid":user.uid,
+                "utoken":user.utoken
             }, function (json) {
                 callback(json);
             }).fail(function (jqxhr) {
@@ -81,7 +105,7 @@ function pageWrite(thispage, allpages) {
         if (pageOffset == thispage) {
             htmlStr += "第" + (pageOffset + 1 ) + "页&nbsp;";
         } else {
-                htmlStr += "<a href=\"" + paramSeparator+ "tid=" + get_param("tid") + "&page=" + pageOffset + "\" onclick=\"location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
+            htmlStr += "<a class=\"page\" href=\"" + paramSeparator + "tid=" + get_param("tid") + "&page=" + pageOffset + "\" onclick=\"location.reload();\">第" + (pageOffset + 1) + "页</a>&nbsp;";
 
         }
     }
@@ -108,12 +132,14 @@ function getTopic(tid, page, callback) {
             "apptoken": appToken,
             "appkey": appKey,
             "tid": tid,
-            "start": page * 15
+            "start": page * 15,
+            "uid":user.uid,
+            "utoken":user.utoken
         }, function (json) {
             if (json.data.moved_to) {
                 //alert("moved");
-                window.location.href = "topicView.html" + paramSeparator +"tid=" + json.data.moved_to;
-                if(paramSeparator=="#")location.reload();
+                window.location.href = "topicView.html" + paramSeparator + "tid=" + json.data.moved_to;
+                if (paramSeparator == "#")location.reload();
             }
             callback(json);
         }).fail(function (jqxhr) {
@@ -123,8 +149,7 @@ function getTopic(tid, page, callback) {
 }
 
 function get_param(param) {
-    if(navigator.appName.indexOf("Internet Explorer")>0)
-    {
+    if (navigator.appName.indexOf("Internet Explorer") > 0) {
         return get_param_wp(param);
     }
     var search = window.location.search.substring(1);
@@ -179,4 +204,32 @@ function get_param_wp(param) {
     }
 
     return comparisonResult;
+}
+function show_user_logon_info() {
+    if (localStorage.length > 0) {
+
+    } else {
+        $("#user_info_toolbar")
+    }
+}
+function login(username, ucode, callback) {
+    getTime(function () {
+        $.post("http://trow.cc/api/users/login", {
+            "t": remoteTime,
+            "apptoken": appToken,
+            "appkey": appKey,
+            "uname": username,
+            "ucode": ucode
+        }, function (data, textStatus) {
+            if (data.code == 42) {
+                user = {
+                    uid: data.data.uid,
+                    user: username,
+                    utoken: data.data.utoken
+                };
+                localStorage.setItem("user", JSON.stringify(user));
+            }
+            callback(data);
+        }, "json");
+    });
 }

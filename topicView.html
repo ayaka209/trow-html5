@@ -3,22 +3,12 @@
         <head>
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <link rel="stylesheet" type="text/css" href="css/phone.css" />
+            <link rel="stylesheet" type="text/css" href="css/base.css" />
             <script src="js/jquery-2.1.1.min.js"></script>
             <script src="js/jquery.crypt.js"></script>
             <script src="js/base.js"></script>
             <title>Windows Phone</title>
-            <style>
-            table {
-                table-layout: fixed;
-                word-wrap: break-word;
-                }
-            td {
-                border: 1px solid white;
-                }
-            img {
-                max-width: 80%;
-                }
-            </style>
+
         </head>
         <body>
             <div>
@@ -34,6 +24,14 @@
                     <td id="pageControl_bottom"></td>
                 </tr>
             </table>
+            <div id="toolbar">
+                <div class="toolbar_item" style="float:left"><a onclick="history.go(-1);">[Back]</a>&nbsp;</div>
+                <div class="toolbar_item" style="float:left"><a onclick="history.go(1);">[Forward]</a>&nbsp;</div>
+                <div class="toolbar_item" style="float:right"><a href="index.html">[Portal]</a>&nbsp;</div>
+                <div id="user_info_toolbar" class="toolbar_item" style="float:left"><a href="login.html">[Log In]</a></div>
+                <div class="toolbar_item" style="float:right"><a href="topicList.html">[Forums]</a>&nbsp;</div>
+                <div class="toolbar_item" style="float:right"><a onclick="location.reload();">[Refresh]</a>&nbsp;</div>
+            </div>
             <script>
             $(function(){
                 var tid = get_param("tid");
